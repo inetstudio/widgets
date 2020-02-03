@@ -22,13 +22,15 @@ window.tinymce.PluginManager.add('widgets', function (editor) {
                         data: widgetData,
                     },
                 ]);
-        } else {
-            let component = window.Admin.vue.modulesComponents.$refs['widgets-package_EmbeddedWidget'][0];
-
-            component.$data.model.id = widgetData.model.id;
         }
     }
-    
+
+    function loadWidget() {
+        let component = window.Admin.vue.modulesComponents.$refs['widgets-package_EmbeddedWidget'][0];
+
+        component.$data.model.id = widgetData.model.id;
+    }
+
     editor.addButton('add_embedded_widget', {
         title: 'Встраиваемый код',
         icon: 'codesample',
@@ -46,6 +48,8 @@ window.tinymce.PluginManager.add('widgets', function (editor) {
                 initComponents();
 
                 window.waitForElement('#add_embedded_widget_modal', function() {
+                    loadWidget();
+
                     $('#add_embedded_widget_modal').modal();
                 });
             } else {
