@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use InetStudio\AdminPanel\Models\Traits\HasJSONColumns;
 use InetStudio\Widgets\Contracts\Models\WidgetModelContract;

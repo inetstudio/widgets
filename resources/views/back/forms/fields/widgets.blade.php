@@ -2,4 +2,4 @@
     $item = $value;
 @endphp
 
-{!! Form::hidden('widgets', implode($item->widgets()->pluck('id')->toArray(), ',')) !!}
+{!! Form::hidden('widgets', implode(',', $item->widgets()->pluck('id')->toArray())) !!}
