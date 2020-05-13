@@ -13,7 +13,7 @@ class ItemsService extends BaseItemsService implements ItemsServiceContract
     {
         $widget = $this->getItemById($id);
 
-        if ($widget['id']) {
+        if ($widget['id'] ?? 0) {
             $view = $widget['view'];
 
             if (view()->exists($view)) {
