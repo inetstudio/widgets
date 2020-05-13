@@ -11,14 +11,16 @@
   ],
   "autoload": {
     "psr-4": {
-      "InetStudio\\Widgets\\": "src/"
+      "InetStudio\\WidgetsPackage\\": "package/src",
+      "InetStudio\\WidgetsPackage\\Widgets\\": "entities/widgets/src"
     }
   },
   "extra": {
     "laravel": {
       "providers": [
-        "InetStudio\\Widgets\\Providers\\WidgetsBindingsServiceProvider",
-        "InetStudio\\Widgets\\Providers\\WidgetsServiceProvider"
+        "InetStudio\\WidgetsPackage\\Providers\\ServiceProvider",
+        "InetStudio\\WidgetsPackage\\Widgets\\Providers\\BindingsServiceProvider",
+        "InetStudio\\WidgetsPackage\\Widgets\\Providers\\ServiceProvider"
       ]
     }
   }
