@@ -112,17 +112,7 @@ class ServiceProvider extends BaseServiceProvider
         Blade::directive('widget', function ($expression) {
             $widgetsService = app()->make('InetStudio\WidgetsPackage\Widgets\Contracts\Services\Front\ItemsServiceContract');
 
-            $widget = $widgetsService->getWidgetObject($expression);
-
-            if ($widget->id) {
-                $view = $widget->view;
-
-                if (view()->exists($view)) {
-                    return view($view, $widget->params);
-                }
-            }
-
-            return '';
+            return $widgetsService->getItemContent($expression);
         });
     }
 }

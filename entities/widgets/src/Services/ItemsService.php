@@ -26,7 +26,7 @@ class ItemsService implements ItemsServiceContract
         return new $this->model;
     }
 
-    public function getItemById($id = 0, bool $returnNew = true): ?WidgetModelContract
+    public function getItemById($id = 0, bool $returnNew = true)
     {
         return $this->model::find($id) ?? (($returnNew) ? $this->create() : null);
     }
