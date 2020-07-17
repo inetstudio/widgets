@@ -9,12 +9,12 @@ use InetStudio\WidgetsPackage\Widgets\Contracts\Services\Front\ItemsServiceContr
 
 class ItemsService extends BaseItemsService implements ItemsServiceContract
 {
-    public function getItemContent($id): string
+    public function getItemContent($id, string $view = ''): string
     {
         $widget = $this->getItemById($id);
 
         if ($widget['id'] ?? 0) {
-            $view = $widget['view'];
+            $view = $view ?? $widget['view'];
 
             if (view()->exists($view)) {
                 $params = $widget['params'];
