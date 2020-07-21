@@ -14,7 +14,7 @@ class ItemsService extends BaseItemsService implements ItemsServiceContract
         $widget = $this->getItemById($id);
 
         if ($widget['id'] ?? 0) {
-            $view = $view ?? $widget['view'];
+            $view = ($view != '') ? $view : $widget['view'];
 
             if (view()->exists($view)) {
                 $params = $widget['params'];
