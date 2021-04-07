@@ -96,7 +96,7 @@ trait HasWidgets
     public function scopeWithAllWidgets(Builder $query, $widgets, string $column = 'id'): Builder
     {
         $widgets = static::isWidgetsStringBased($widgets)
-            ? $widgets : static::hydrateWidgets($widgets)->pluck($column);
+            ? $widgets : static::hydrateWidgets($widgets)->pluck($column)->toArray();
 
         collect($widgets)->each(function ($widget) use ($query, $column) {
             $query->whereHas('widgets', function (Builder $query) use ($widget, $column) {
@@ -119,7 +119,7 @@ trait HasWidgets
     public function scopeWithAnyWidgets(Builder $query, $widgets, string $column = 'id'): Builder
     {
         $widgets = static::isWidgetsStringBased($widgets)
-            ? $widgets : static::hydrateWidgets($widgets)->pluck($column);
+            ? $widgets : static::hydrateWidgets($widgets)->pluck($column)->toArray();
 
         return $query->whereHas('widgets', function (Builder $query) use ($widgets, $column) {
             $query->whereIn($column, (array) $widgets);
@@ -152,7 +152,7 @@ trait HasWidgets
     public function scopeWithoutWidgets(Builder $query, $widgets, string $column = 'id'): Builder
     {
         $widgets = static::isWidgetsStringBased($widgets)
-            ? $widgets : static::hydrateWidgets($widgets)->pluck($column);
+            ? $widgets : static::hydrateWidgets($widgets)->pluck($column)->toArray();
 
         return $query->whereDoesntHave('widgets', function (Builder $query) use ($widgets, $column) {
             $query->whereIn($column, (array) $widgets);
