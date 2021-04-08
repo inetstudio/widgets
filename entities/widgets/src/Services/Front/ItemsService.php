@@ -9,7 +9,7 @@ use InetStudio\WidgetsPackage\Widgets\Contracts\Services\Front\ItemsServiceContr
 
 class ItemsService extends BaseItemsService implements ItemsServiceContract
 {
-    public function getItemContent($id, string $view = ''): string
+    public function getItemContent($id, string $view = '', array $additionalParams = []): string
     {
         $widget = $this->getItemById($id);
 
@@ -19,7 +19,7 @@ class ItemsService extends BaseItemsService implements ItemsServiceContract
             if (view()->exists($view)) {
                 $params = $widget['params'];
 
-                return view($view, array_merge(is_array($params) ? $params : [], ['widget' => $widget]))->render();
+                return view($view, array_merge(is_array($params) ? $params : [], ['widget' => $widget], $additionalParams))->render();
             }
         }
 

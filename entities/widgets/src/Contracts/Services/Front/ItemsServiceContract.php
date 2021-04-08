@@ -6,5 +6,5 @@ use InetStudio\WidgetsPackage\Widgets\Contracts\Services\ItemsServiceContract as
 
 interface ItemsServiceContract extends BaseItemsServiceContract
 {
-    public function getItemContent($id): string;
+    public function getItemContent($id, string $view = '', array $additionalParams = []): string;
 }
