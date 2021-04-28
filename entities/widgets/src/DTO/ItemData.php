@@ -2,13 +2,13 @@
 
 namespace InetStudio\WidgetsPackage\Widgets\DTO;
 
-use Spatie\DataTransferObject\FlexibleDataTransferObject;
+use Spatie\DataTransferObject\DataTransferObject;
 use InetStudio\WidgetsPackage\Widgets\Contracts\DTO\ItemDataContract;
 
 /**
  * Class ItemData.
  */
-class ItemData extends FlexibleDataTransferObject implements ItemDataContract
+class ItemData extends DataTransferObject implements ItemDataContract
 {
     /**
      * @var int
