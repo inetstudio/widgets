@@ -56,7 +56,7 @@ class UpdateRequest extends FormRequest implements UpdateRequestContract
         $itemData = app()->make(
             'InetStudio\WidgetsPackage\Widgets\Contracts\DTO\ItemDataContract',
             [
-                'parameters' => [
+                'args' => [
                     'id' => (int) $this->get('id'),
                     'view' => trim(strip_tags($this->get('view'))),
                     'params' => $this->get('params', []),
