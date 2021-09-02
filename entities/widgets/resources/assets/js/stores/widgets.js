@@ -1,3 +1,5 @@
+import Vuex from 'vuex';
+
 window.Admin.vue.stores['widgets-package_widgets'] = new Vuex.Store({
   state: {
     emptyWidget: {

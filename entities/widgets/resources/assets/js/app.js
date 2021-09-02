@@ -1,3 +1,6 @@
+import Vue from 'vue';
+import {widgets} from './package/widgets';
+
 require('./plugins/tinymce/plugins/widgets');
 
 require('./mixins/widget');
@@ -9,5 +12,4 @@ Vue.component(
     require('./components/partials/EmbeddedWidget/EmbeddedWidget.vue').default,
 );
 
-let widgets = require('./package/widgets');
 widgets.init();
