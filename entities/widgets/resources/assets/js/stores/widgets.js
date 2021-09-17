@@ -1,6 +1,4 @@
-import Vuex from 'vuex';
-
-window.Admin.vue.stores['widgets-package_widgets'] = new Vuex.Store({
+window.Admin.vue.stores['widgets-package_widgets'] = new window.Vuex.Store({
   state: {
     emptyWidget: {
       model: {
