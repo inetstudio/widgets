@@ -8,7 +8,7 @@ require('./stores/widgets');
 
 window.Vue.component(
     'EmbeddedWidget',
-    require('./components/partials/EmbeddedWidget/EmbeddedWidget.vue').default,
+    () => import('./components/partials/EmbeddedWidget/EmbeddedWidget.vue'),
 );
 
 widgets.init();

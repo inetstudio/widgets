@@ -1,3 +1,5 @@
+import Swal from 'sweetalert2';
+
 export let widgets = {
     init: function() {
         window.Admin = window.Admin || {
@@ -37,10 +39,10 @@ export let widgets = {
                             }
                         },
                         error: function () {
-                            swal({
+                            Swal.fire({
                                 title: "Ошибка",
                                 text: "Произошла ошибка при получении виджета",
-                                type: "error"
+                                icon: "error"
                             });
                         }
                     });

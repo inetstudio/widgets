@@ -1,3 +1,5 @@
+import hash from 'object-hash';
+
 window.Admin.vue.stores['widgets-package_widgets'] = new window.Vuex.Store({
   state: {
     emptyWidget: {
@@ -18,10 +20,10 @@ window.Admin.vue.stores['widgets-package_widgets'] = new window.Vuex.Store({
   mutations: {
     setWidget(state, widget) {
       let emptyWidget = JSON.parse(JSON.stringify(state.emptyWidget));
-      emptyWidget.model.id = UUID.generate();
+      emptyWidget.model.id = uuidv4();
 
       let resultWidget = _.merge(emptyWidget, widget);
-      resultWidget.hash = window.hash(resultWidget.model);
+      resultWidget.hash = hash(resultWidget.model);
 
       state.widget = resultWidget;
     },

@@ -1,3 +1,5 @@
+import Swal from 'sweetalert2';
+
 window.Admin.vue.mixins['widget'] = {
     props: {
         widget: {
@@ -57,10 +59,10 @@ window.Admin.vue.mixins['widget'] = {
                 component.events.widgetLoaded(component);
             })
             .catch(error => {
-                swal({
+                Swal.fire({
                     title: "Ошибка",
                     text: "Произошла ошибка при получении виджета",
-                    type: "error"
+                    icon: "error"
                 });
             });
         },
