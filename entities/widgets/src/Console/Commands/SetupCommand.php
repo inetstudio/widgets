@@ -27,6 +27,11 @@ class SetupCommand extends BaseSetupCommand
                 'description' => 'Migration',
                 'command' => 'migrate',
             ],
+            [
+                'type' => 'artisan',
+                'description' => 'Create folders',
+                'command' => 'inetstudio:widgets-package:widgets:folders',
+            ],
         ];
     }
 }

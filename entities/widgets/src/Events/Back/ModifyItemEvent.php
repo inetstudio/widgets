@@ -10,10 +10,7 @@ class ModifyItemEvent implements ModifyItemEventContract
 {
     use SerializesModels;
 
-    public WidgetModelContract $item;
-
-    public function __construct(WidgetModelContract $item)
-    {
-        $this->item = $item;
-    }
+    public function __construct(
+        public WidgetModelContract $item
+    ) {}
 }

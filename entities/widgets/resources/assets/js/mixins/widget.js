@@ -9,7 +9,7 @@ window.Admin.vue.mixins['widget'] = {
                     events: {}
                 };
             }
-        },
+        }
     },
     data: function () {
         return {
@@ -37,6 +37,9 @@ window.Admin.vue.mixins['widget'] = {
         getDefaultWidgetModel() {
             return {
                 id: 0,
+                widget_name: '',
+                title: '',
+                category: '',
                 view: '',
                 params: {},
                 additional_info: {},
@@ -48,7 +51,7 @@ window.Admin.vue.mixins['widget'] = {
         getWidget: function () {
             let component = this;
 
-            let url = route('back.widgets.show', component.model.id);
+            let url = route('inetstudio.widgets-package.widgets.back.resource.show', component.model.id);
 
             component.options.loading = true;
 
@@ -71,7 +74,9 @@ window.Admin.vue.mixins['widget'] = {
 
             let callback = (0 in arguments) ? arguments[0] : undefined;
 
-            let url = (component.model.id !== 0) ? route('back.widgets.update', component.model.id): route('back.widgets.store');
+            let url = (component.model.id !== 0)
+                ? route('inetstudio.widgets-package.widgets.back.resource.update', component.model.id)
+                : route('inetstudio.widgets-package.widgets.back.resource.store');
 
             let data = JSON.parse(JSON.stringify(component.model));
             if (component.model.id !== 0) {

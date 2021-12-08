@@ -5,103 +5,59 @@ namespace InetStudio\WidgetsPackage\Widgets\Models;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use InetStudio\Uploads\Models\Traits\HasImages;
+//use InetStudio\Uploads\Models\Traits\HasImages;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use InetStudio\AdminPanel\Models\Traits\HasJSONColumns;
-use Illuminate\Contracts\Container\BindingResolutionException;
 use InetStudio\WidgetsPackage\Widgets\Contracts\Models\WidgetModelContract;
 
-/**
- * Class WidgetModel.
- */
 class WidgetModel extends Model implements WidgetModelContract
 {
-    use HasImages;
+//    use HasImages;
     use SoftDeletes;
     use HasJSONColumns;
 
     const ENTITY_TYPE = 'widget';
     const BASE_MATERIAL_TYPE = 'widget';
 
-    /**
-     * Конфиг изображений.
-     *
-     * @var array
-     */
     private array $images = [
         'config' => 'widgets',
         'model' => '',
     ];
 
-    /**
-     * Связанная с моделью таблица.
-     *
-     * @var string
-     */
     protected $table = 'widgets';
 
-    /**
-     * Атрибуты, для которых разрешено массовое назначение.
-     *
-     * @var array
-     */
     protected $fillable = [
+        'title',
+        'category',
         'view',
         'params',
         'additional_info',
     ];
 
-    /**
-     * Атрибуты, которые должны быть преобразованы к базовым типам.
-     *
-     * @var array
-     */
     protected $casts = [
         'params' => 'array',
         'additional_info' => 'array',
     ];
 
-    /**
-     * Атрибуты, которые должны быть преобразованы в даты.
-     *
-     * @var array
-     */
     protected $dates = [
         'created_at',
         'updated_at',
         'deleted_at',
     ];
 
-    /**
-     * Геттер атрибута type.
-     *
-     * @return string
-     */
     public function getTypeAttribute()
     {
         return self::ENTITY_TYPE;
     }
 
-    /**
-     * Геттер атрибута material_type.
-     *
-     * @return string
-     */
     public function getMaterialTypeAttribute(): string
     {
         return $this->additional_info['material_type'] ?? self::BASE_MATERIAL_TYPE;
     }
 
-    /**
-     * Отношение "один ко многим" с моделью "ссылок" на материалы.
-     *
-     * @return HasMany
-     *
-     * @throws BindingResolutionException
-     */
     public function widgetables(): HasMany
     {
-        $widgetableModel = app()->make('InetStudio\WidgetsPackage\Widgets\Contracts\Models\WidgetableModelContract');
+        $widgetableModel = resolve('InetStudio\WidgetsPackage\Widgets\Contracts\Models\WidgetableModelContract');
 
         return $this->hasMany(
             get_class($widgetableModel),
@@ -109,16 +65,6 @@ class WidgetModel extends Model implements WidgetModelContract
         );
     }
 
-    /**
-     * Handle dynamic method calls into the model.
-     *
-     * @param  string  $method
-     * @param  array  $parameters
-     *
-     * @return mixed
-     *
-     * @throws BindingResolutionException
-     */
     public function __call($method, $parameters)
     {
         $config = implode('.', ['widgets.relationships', $method]);
@@ -135,13 +81,6 @@ class WidgetModel extends Model implements WidgetModelContract
         return parent::__call($method, $parameters);
     }
 
-    /**
-     * Get an attribute from the model.
-     *
-     * @param  string  $key
-     *
-     * @return mixed
-     */
     public function getAttribute($key)
     {
         $config = implode('.', ['widgets.relationships', $key]);
@@ -153,13 +92,6 @@ class WidgetModel extends Model implements WidgetModelContract
         return parent::getAttribute($key);
     }
 
-    /**
-     * Get a relationship.
-     *
-     * @param  string  $key
-     *
-     * @return mixed
-     */
     public function getRelationValue($key)
     {
         if ($this->relationLoaded($key)) {

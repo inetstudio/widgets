@@ -3,70 +3,53 @@
 namespace InetStudio\WidgetsPackage\Widgets\Http\Requests\Back\Resource;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Contracts\Container\BindingResolutionException;
 use InetStudio\WidgetsPackage\Widgets\Contracts\Http\Requests\Back\Resource\UpdateRequestContract;
+use InetStudio\WidgetsPackage\Widgets\Contracts\DTO\Actions\Back\Resource\UpdateItemDataContract;
 
-/**
- * Class UpdateRequest.
- */
 class UpdateRequest extends FormRequest implements UpdateRequestContract
 {
-    /**
-     * Определить, авторизован ли пользователь для этого запроса.
-     *
-     * @return bool
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Сообщения об ошибках.
-     *
-     * @return array
-     */
     public function messages(): array
     {
         return [
-            'view.required' => 'Поле «View» обязательно для заполнения',
-            'view.max' => 'Поле «View» не должно превышать 255 символов',
+            'widget_name.max' => 'Поле «Имя виджета» не должно превышать 255 символов',
+            'title.max' => 'Поле «Название» не должно превышать 255 символов',
+            'alias.max' => 'Поле «Алиас» не должно превышать 255 символов',
+            'category.max' => 'Поле «Категория» не должно превышать 255 символов',
+            'view.required' => 'Поле «Представление» обязательно для заполнения',
+            'view.max' => 'Поле «Представление» не должно превышать 255 символов',
+            'params.array' => 'Поле «Параметры» должно содержать массив',
+            'additional_info.array' => 'Поле «Дополнительная информация» должно содержать массив',
         ];
     }
 
-    /**
-     * Правила проверки запроса.
-     *
-     * @return array
-     */
     public function rules(): array
     {
         return [
+            'widget_name' => 'nullable|max:255',
+            'title' => 'nullable|max:255',
+            'alias' => 'nullable|max:255',
+            'category' => 'nullable|max:255',
             'view' => 'required|max:255',
+            'params' => 'nullable|array',
+            'additional_info' => 'nullable|array',
         ];
     }
 
-    /**
-     * Handle a passed validation attempt.
-     *
-     * @throws BindingResolutionException
-     */
-    protected function passedValidation()
+    public function getDataObject(): UpdateItemDataContract
     {
-        $itemData = app()->make(
-            'InetStudio\WidgetsPackage\Widgets\Contracts\DTO\ItemDataContract',
+        $data = $this->validated();
+        $data['id'] = $this->route('widget');
+
+        return resolve(
+            UpdateItemDataContract::class,
             [
-                'args' => [
-                    'id' => (int) $this->get('id'),
-                    'view' => trim(strip_tags($this->get('view'))),
-                    'params' => $this->get('params', []),
-                    'additional_info' => $this->get('additional_info', []),
-                ],
+                'args' => $data,
             ]
         );
-
-        $data = compact('itemData');
-
-        request()->merge($data);
     }
 }

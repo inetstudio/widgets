@@ -7,14 +7,8 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 
-/**
- * Class ServiceProvider.
- */
 class ServiceProvider extends BaseServiceProvider
 {
-    /**
-     * Загрузка сервиса.
-     */
     public function boot(): void
     {
         $this->registerConsoleCommands();
@@ -25,9 +19,6 @@ class ServiceProvider extends BaseServiceProvider
         $this->registerBladeDirectives();
     }
 
-    /**
-     * Регистрация команд.
-     */
     protected function registerConsoleCommands(): void
     {
         if (! $this->app->runningInConsole()) {
@@ -40,14 +31,11 @@ class ServiceProvider extends BaseServiceProvider
         ]);
     }
 
-    /**
-     * Регистрация ресурсов.
-     */
     protected function registerPublishes(): void
     {
         $this->publishes(
             [
-                __DIR__.'/../../config/widgets.php' => config_path('widgets.php'),
+                __DIR__.'/../../config/inetstudio.widgets-package.widgets.php' => config_path('inetstudio.widgets-package.widgets.php'),
             ],
             'config'
         );
@@ -64,38 +52,29 @@ class ServiceProvider extends BaseServiceProvider
         $timestamp = date('Y_m_d_His', time());
         $this->publishes(
             [
-                __DIR__.'/../../database/migrations/create_widgets_tables.php.stub' => database_path(
-                    'migrations/'.$timestamp.'_create_widgets_tables.php'
+                __DIR__.'/../../database/migrations/create_widgets_package_widgets_tables.php.stub' => database_path(
+                    'migrations/'.$timestamp.'_create_widgets_package_widgets_tables.php'
                 ),
             ],
             'migrations'
         );
     }
 
-    /**
-     * Регистрация путей.
-     */
     protected function registerRoutes(): void
     {
         $this->loadRoutesFrom(__DIR__.'/../../routes/web.php');
     }
 
-    /**
-     * Регистрация представлений.
-     */
     protected function registerViews(): void
     {
-        $this->loadViewsFrom(__DIR__.'/../../resources/views', 'admin.module.widgets');
+        $this->loadViewsFrom(__DIR__.'/../../resources/views', 'inetstudio.widgets-package.widgets');
     }
 
-    /**
-     * Регистрация компонентов форм.
-     */
-    protected function registerFormComponents()
+    protected function registerFormComponents(): void
     {
         FormBuilder::component(
             'widgets',
-            'admin.module.widgets::back.forms.fields.widgets',
+            'inetstudio.widgets-package.widgets::back.forms.fields.widgets',
             [
                 'name' => null,
                 'value' => null,
@@ -104,13 +83,10 @@ class ServiceProvider extends BaseServiceProvider
         );
     }
 
-    /**
-     * Регистрация директив blade.
-     */
-    protected function registerBladeDirectives()
+    protected function registerBladeDirectives(): void
     {
         Blade::directive('widget', function ($expression) {
-            $widgetsService = app()->make('InetStudio\WidgetsPackage\Widgets\Contracts\Services\Front\ItemsServiceContract');
+            $widgetsService = resolve('InetStudio\WidgetsPackage\Widgets\Contracts\Services\Front\ItemsServiceContract');
 
             return $widgetsService->getItemContent($expression);
         });

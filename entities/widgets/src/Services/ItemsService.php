@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace InetStudio\WidgetsPackage\Widgets\Services;
 
 use InetStudio\WidgetsPackage\Widgets\Contracts\Models\WidgetModelContract;

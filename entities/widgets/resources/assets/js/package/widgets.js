@@ -9,6 +9,15 @@ export let widgets = {
             modules: {}
         };
 
+        document.querySelectorAll('.widgets-package').forEach((element) => {
+            new window.Vue({
+                el: element,
+                components: {
+                    'widgets-package_widgets_pages_index': () => import('~widgets-package_widgets/components/pages/Index')
+                }
+            });
+        });
+
         $.extend(window.Admin.options.tinymce, {
             init_instance_callback: function (editor) {
                 editor.on('change redo undo', function (e) {
@@ -30,7 +39,7 @@ export let widgets = {
                         callback = (1 in arguments) ? arguments[1] : undefined;
 
                     $.ajax({
-                        url: route('back.widgets.show', widgetId),
+                        url: route('inetstudio.widgets-package.widgets.back.resource.show', widgetId),
                         method: 'GET',
                         dataType: 'json',
                         success: function (widget) {
@@ -53,7 +62,9 @@ export let widgets = {
                         widgetOptions = arguments[2],
                         callback = (3 in arguments) ? arguments[3] : undefined;
 
-                    let url = (widgetId !== '') ? route('back.widgets.update', widgetId): route('back.widgets.store');
+                    let url = (widgetId !== '')
+                        ? route('inetstudio.widgets-package.widgets.back.resource.update', widgetId)
+                        : route('back.widgets.store');
 
                     if (widgetId !== '') {
                         $.extend(widgetData, {

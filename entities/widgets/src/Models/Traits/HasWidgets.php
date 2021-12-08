@@ -10,18 +10,8 @@ use InetStudio\WidgetsPackage\Widgets\Contracts\Models\WidgetModelContract;
 
 trait HasWidgets
 {
-    /**
-     * The Queued Widgets.
-     *
-     * @var array
-     */
-    protected $queuedWidgets = [];
+    protected array $queuedWidgets = [];
 
-    /**
-     * Get Widget class name.
-     *
-     * @return string
-     */
     public static function getWidgetClassName(): string
     {
         $model = app()->make('InetStudio\WidgetsPackage\Widgets\Contracts\Models\WidgetModelContract');
@@ -29,21 +19,11 @@ trait HasWidgets
         return get_class($model);
     }
 
-    /**
-     * Get all attached widgets to the model.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
-     */
     public function widgets(): MorphToMany
     {
         return $this->morphToMany(static::getWidgetClassName(), 'widgetable')->withTimestamps();
     }
 
-    /**
-     * Attach the given widget(s) to the model.
-     *
-     * @param int|string|array|\ArrayAccess|WidgetModelContract $widgets
-     */
     public function setWidgetsAttribute($widgets)
     {
         if (! $this->exists) {
@@ -55,9 +35,6 @@ trait HasWidgets
         $this->attachWidgets($widgets);
     }
 
-    /**
-     * Boot the widgetable trait for a model.
-     */
     public static function bootHasWidgets()
     {
         static::created(function (Model $widgetableModel) {
@@ -72,27 +49,11 @@ trait HasWidgets
         });
     }
 
-    /**
-     * Get the widget list.
-     *
-     * @param string $keyColumn
-     *
-     * @return array
-     */
     public function widgetList(string $keyColumn = 'id'): array
     {
         return $this->widgets()->pluck('view', $keyColumn)->toArray();
     }
 
-    /**
-     * Scope query with all the given widgets.
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param int|string|array|\ArrayAccess|WidgetModelContract $widgets
-     * @param string $column
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
     public function scopeWithAllWidgets(Builder $query, $widgets, string $column = 'id'): Builder
     {
         $widgets = static::isWidgetsStringBased($widgets)
@@ -107,15 +68,6 @@ trait HasWidgets
         return $query;
     }
 
-    /**
-     * Scope query with any of the given widgets.
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param int|string|array|\ArrayAccess|WidgetModelContract $widgets
-     * @param string $column
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
     public function scopeWithAnyWidgets(Builder $query, $widgets, string $column = 'id'): Builder
     {
         $widgets = static::isWidgetsStringBased($widgets)
@@ -126,29 +78,11 @@ trait HasWidgets
         });
     }
 
-    /**
-     * Scope query with any of the given widgets.
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param int|string|array|\ArrayAccess|WidgetModelContract $widgets
-     * @param string $column
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
     public function scopeWithWidgets(Builder $query, $widgets, string $column = 'id'): Builder
     {
         return static::scopeWithAnyWidgets($query, $widgets, $column);
     }
 
-    /**
-     * Scope query without the given widgets.
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param int|string|array|\ArrayAccess|WidgetModelContract $widgets
-     * @param string $column
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
     public function scopeWithoutWidgets(Builder $query, $widgets, string $column = 'id'): Builder
     {
         $widgets = static::isWidgetsStringBased($widgets)
@@ -159,25 +93,11 @@ trait HasWidgets
         });
     }
 
-    /**
-     * Scope query without any widgets.
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
     public function scopeWithoutAnyWidgets(Builder $query): Builder
     {
         return $query->doesntHave('widgets');
     }
 
-    /**
-     * Attach the given Widget(ies) to the model.
-     *
-     * @param int|string|array|\ArrayAccess|WidgetModelContract $widgets
-     *
-     * @return $this
-     */
     public function attachWidgets($widgets)
     {
         static::setWidgets($widgets, 'syncWithoutDetaching');
@@ -185,13 +105,6 @@ trait HasWidgets
         return $this;
     }
 
-    /**
-     * Sync the given widget(s) to the model.
-     *
-     * @param int|string|array|\ArrayAccess|WidgetModelContract|null $widgets
-     *
-     * @return $this
-     */
     public function syncWidgets($widgets)
     {
         static::setWidgets($widgets, 'sync');
@@ -199,13 +112,6 @@ trait HasWidgets
         return $this;
     }
 
-    /**
-     * Detach the given Widget(s) from the model.
-     *
-     * @param int|string|array|\ArrayAccess|WidgetModelContract $widgets
-     *
-     * @return $this
-     */
     public function detachWidgets($widgets)
     {
         static::setWidgets($widgets, 'detach');
@@ -213,13 +119,6 @@ trait HasWidgets
         return $this;
     }
 
-    /**
-     * Determine if the model has any the given widgets.
-     *
-     * @param int|string|array|\ArrayAccess|WidgetModelContract $widgets
-     *
-     * @return bool
-     */
     public function hasWidget($widgets): bool
     {
         // Single Widget id
@@ -255,25 +154,11 @@ trait HasWidgets
         return false;
     }
 
-    /**
-     * Determine if the model has any the given widgets.
-     *
-     * @param int|string|array|\ArrayAccess|WidgetModelContract $widgets
-     *
-     * @return bool
-     */
     public function hasAnyWidget($widgets): bool
     {
         return static::hasWidget($widgets);
     }
 
-    /**
-     * Determine if the model has all of the given widgets.
-     *
-     * @param int|string|array|\ArrayAccess|WidgetModelContract $widgets
-     *
-     * @return bool
-     */
     public function hasAllWidgets($widgets): bool
     {
         // Single widget id
@@ -311,12 +196,6 @@ trait HasWidgets
         return false;
     }
 
-    /**
-     * Set the given widget(s) to the model.
-     *
-     * @param int|string|array|\ArrayAccess|WidgetModelContract $widgets
-     * @param string $action
-     */
     protected function setWidgets($widgets, string $action)
     {
         // Fix exceptional event name
@@ -335,13 +214,6 @@ trait HasWidgets
         static::$dispatcher->dispatch("inetstudio.widgets.{$event}ed", [$this, $widgets]);
     }
 
-    /**
-     * Hydrate widgets.
-     *
-     * @param int|string|array|\ArrayAccess|WidgetModelContract $widgets
-     *
-     * @return \Illuminate\Support\Collection
-     */
     protected function hydrateWidgets($widgets)
     {
         $isWidgetsStringBased = static::isWidgetsStringBased($widgets);
@@ -353,25 +225,11 @@ trait HasWidgets
             ? $className::query()->whereIn($field, (array) $widgets)->get() : collect($widgets);
     }
 
-    /**
-     * Determine if the given widget(s) are string based.
-     *
-     * @param int|string|array|\ArrayAccess|WidgetModelContract $widgets
-     *
-     * @return bool
-     */
     protected function isWidgetsStringBased($widgets)
     {
         return is_string($widgets) || (is_array($widgets) && isset($widgets[0]) && is_string($widgets[0]));
     }
 
-    /**
-     * Determine if the given widget(s) are integer based.
-     *
-     * @param int|string|array|\ArrayAccess|WidgetModelContract $widgets
-     *
-     * @return bool
-     */
     protected function isWidgetsIntBased($widgets)
     {
         return is_int($widgets) || (is_array($widgets) && isset($widgets[0]) && is_int($widgets[0]));

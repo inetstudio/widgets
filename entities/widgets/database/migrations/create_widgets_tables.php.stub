@@ -3,12 +3,16 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateWidgetsTables extends Migration
+class CreateWidgetsPackageWidgetsTables extends Migration
 {
     public function up()
     {
         Schema::create('widgets', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('widget_name')->nullable();
+            $table->string('title')->nullable();
+            $table->string('alias')->nullable();
+            $table->string('category')->nullable();
             $table->string('view');
             $table->json('params')->nullable();
             $table->json('additional_info')->nullable();
@@ -20,8 +24,6 @@ class CreateWidgetsTables extends Migration
             $table->integer('widget_model_id')->unsigned();
             $table->morphs('widgetable');
             $table->timestamps();
-
-            $table->foreign('widget_model_id')->references('id')->on('widgets')->onDelete('cascade');
 
             $table->index(['widgetable_id', 'widgetable_type']);
         });

@@ -2,52 +2,31 @@
 
 namespace InetStudio\WidgetsPackage\Widgets\Http\Responses\Back\Resource;
 
-use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
-use InetStudio\WidgetsPackage\Widgets\Contracts\Services\Back\ItemsServiceContract;
+use InetStudio\WidgetsPackage\Widgets\Contracts\Models\WidgetModelContract;
 use InetStudio\WidgetsPackage\Widgets\Contracts\Http\Responses\Back\Resource\StoreResponseContract;
 
-/**
- * Class StoreResponse.
- */
 class StoreResponse implements StoreResponseContract
 {
-    /**
-     * @var ItemsServiceContract
-     */
-    protected ItemsServiceContract $resourceService;
+    public function __construct(
+        protected ?WidgetModelContract $result = null
+    ) {}
 
-    /**
-     * StoreResponse constructor.
-     *
-     * @param  ItemsServiceContract  $resourceService
-     */
-    public function __construct(ItemsServiceContract $resourceService)
+    public function setResult(?WidgetModelContract $result): void
     {
-        $this->resourceService = $resourceService;
+        $this->result = $result;
     }
 
-    /**
-     * Возвращаем ответ при сохранении объекта.
-     *
-     * @param  Request  $request
-     *
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Symfony\Component\HttpFoundation\Response|null
-     *
-     * @throws ValidationException
-     */
     public function toResponse($request)
     {
-        $data = $request->get('itemData');
+        $resource = $this->result;
 
-        $item = $this->resourceService->save($data);
-
-        if (! $item) {
-            throw ValidationException::withMessages([
-                'id' => 'При сохранении произошла ошибка',
-            ]);
+        if (! $resource) {
+            abort(404);
         }
 
-        return response()->json($item->toArray());
+        return resolve(
+            'InetStudio\WidgetsPackage\Widgets\Contracts\Http\Resources\Back\Resource\StoreResourceContract',
+            compact('resource')
+        );
     }
 }

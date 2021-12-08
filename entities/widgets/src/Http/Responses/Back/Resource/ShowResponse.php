@@ -2,43 +2,32 @@
 
 namespace InetStudio\WidgetsPackage\Widgets\Http\Responses\Back\Resource;
 
-use Illuminate\Http\Request;
-use InetStudio\WidgetsPackage\Widgets\Contracts\Services\Back\ItemsServiceContract;
+use Illuminate\Database\Eloquent\Collection;
+use InetStudio\WidgetsPackage\Widgets\Contracts\Models\WidgetModelContract;
 use InetStudio\WidgetsPackage\Widgets\Contracts\Http\Responses\Back\Resource\ShowResponseContract;
 
-/**
- * Class ShowResponse.
- */
 class ShowResponse implements ShowResponseContract
 {
-    /**
-     * @var ItemsServiceContract
-     */
-    protected ItemsServiceContract $resourceService;
+    public function __construct(
+        protected ?WidgetModelContract $result = null
+    ) {}
 
-    /**
-     * ShowResponse constructor.
-     *
-     * @param  ItemsServiceContract  $resourceService
-     */
-    public function __construct(ItemsServiceContract $resourceService)
+    public function setResult(Collection $result): void
     {
-        $this->resourceService = $resourceService;
+        $this->result = $result->first();
     }
 
-    /**
-     * Возвращаем ответ при показе объекта.
-     *
-     * @param  Request  $request
-     *
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Symfony\Component\HttpFoundation\Response|null
-     */
     public function toResponse($request)
     {
-        $id = $request->route('widget');
+        $resource = $this->result;
 
-        $item = $this->resourceService->getItemById($id);
+        if (! $resource) {
+            abort(404);
+        }
 
-        return response()->json($item->toArray());
+        return resolve(
+            'InetStudio\WidgetsPackage\Widgets\Contracts\Http\Resources\Back\Resource\ShowResourceContract',
+            compact('resource')
+        );
     }
 }

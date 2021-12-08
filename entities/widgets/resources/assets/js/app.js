@@ -8,7 +8,12 @@ require('./stores/widgets');
 
 window.Vue.component(
     'EmbeddedWidget',
-    () => import('./components/partials/EmbeddedWidget/EmbeddedWidget.vue'),
+    () => import('~widgets-package_widgets/components/widgets/EmbeddedWidget/EmbeddedWidget'),
+);
+
+window.Vue.component(
+    'widgets-package_widgets_partials_datatables_actions',
+    () => import('~widgets-package_widgets/components/partials/datatables/Actions'),
 );
 
 widgets.init();

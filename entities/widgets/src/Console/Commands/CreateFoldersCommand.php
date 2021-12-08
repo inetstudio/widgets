@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 
 class CreateFoldersCommand extends Command
 {
-    protected $name = 'inetstudio:widgets:folders';
+    protected $name = 'inetstudio:widgets-package:widgets:folders';
 
     protected $description = 'Create package folders';
 
