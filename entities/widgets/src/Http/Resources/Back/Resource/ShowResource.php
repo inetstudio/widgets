@@ -9,13 +9,7 @@ class ShowResource extends JsonResource implements ShowResourceContract
 {
     public function toArray($request)
     {
-        return [
-            'id' => $this['id'],
-            'title' => $this['title'],
-            'content' => $this['content'],
-            'preview' => $this->getPreviewImage(),
-            'content_images' => $this->getContentImages(),
-        ];
+        return $this->resource->toArray();
     }
 
     public function getPreviewImage(): ?array

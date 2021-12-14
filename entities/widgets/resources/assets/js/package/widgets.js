@@ -64,7 +64,7 @@ export let widgets = {
 
                     let url = (widgetId !== '')
                         ? route('inetstudio.widgets-package.widgets.back.resource.update', widgetId)
-                        : route('back.widgets.store');
+                        : route('inetstudio.widgets-package.widgets.back.resource.store');
 
                     if (widgetId !== '') {
                         $.extend(widgetData, {

@@ -10,12 +10,6 @@ class StoreResource extends JsonResource implements StoreResourceContract
 {
     public function toArray($request)
     {
-        return [
-            'success' => isset($this['id']),
-            'data' => [
-                'id' => $this['id'],
-                'title' => $this['title'] ?? Str::limit($this['content'], '100', '...'),
-            ],
-        ];
+        return $this->resource->toArray();
     }
 }

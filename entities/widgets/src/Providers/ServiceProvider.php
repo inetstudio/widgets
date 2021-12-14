@@ -86,9 +86,17 @@ class ServiceProvider extends BaseServiceProvider
     protected function registerBladeDirectives(): void
     {
         Blade::directive('widget', function ($expression) {
-            $widgetsService = resolve('InetStudio\WidgetsPackage\Widgets\Contracts\Services\Front\ItemsServiceContract');
+            $renderAction = resolve('InetStudio\WidgetsPackage\Widgets\Contracts\Actions\Front\RenderActionContract');
+            $renderData = resolve(
+                'InetStudio\WidgetsPackage\Widgets\Contracts\DTO\Actions\Front\RenderItemDataContract',
+                [
+                    'args' => [
+                        'id' => $expression,
+                    ],
+                ]
+            );
 
-            return $widgetsService->getItemContent($expression);
+            return $renderAction->execute($renderData);
         });
     }
 }
