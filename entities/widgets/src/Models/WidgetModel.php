@@ -5,14 +5,14 @@ namespace InetStudio\WidgetsPackage\Widgets\Models;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-//use InetStudio\Uploads\Models\Traits\HasImages;
+use InetStudio\Uploads\Models\Traits\HasImages;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use InetStudio\AdminPanel\Models\Traits\HasJSONColumns;
 use InetStudio\WidgetsPackage\Widgets\Contracts\Models\WidgetModelContract;
 
 class WidgetModel extends Model implements WidgetModelContract
 {
-//    use HasImages;
+    use HasImages;
     use SoftDeletes;
     use HasJSONColumns;
 
@@ -67,7 +67,7 @@ class WidgetModel extends Model implements WidgetModelContract
 
     public function __call($method, $parameters)
     {
-        $config = implode('.', ['widgets.relationships', $method]);
+        $config = implode('.', ['inetstudio.widgets-package.widgets.relationships', $method]);
 
         if (Config::has($config)) {
             $data = Config::get($config);
@@ -83,7 +83,7 @@ class WidgetModel extends Model implements WidgetModelContract
 
     public function getAttribute($key)
     {
-        $config = implode('.', ['widgets.relationships', $key]);
+        $config = implode('.', ['inetstudio.widgets-package.widgets.relationships', $key]);
 
         if (Config::has($config)) {
             return $this->getRelationValue($key);
@@ -98,7 +98,7 @@ class WidgetModel extends Model implements WidgetModelContract
             return $this->relations[$key];
         }
 
-        $config = implode('.', ['widgets.relationships', $key]);
+        $config = implode('.', ['inetstudio.widgets-package.widgets.relationships', $key]);
 
         if (Config::has($config)) {
             return $this->getRelationshipFromMethod($key);
