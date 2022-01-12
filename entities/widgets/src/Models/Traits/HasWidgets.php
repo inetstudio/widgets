@@ -14,7 +14,7 @@ trait HasWidgets
 
     public static function getWidgetClassName(): string
     {
-        $model = app()->make('InetStudio\WidgetsPackage\Widgets\Contracts\Models\WidgetModelContract');
+        $model = resolve('InetStudio\WidgetsPackage\Widgets\Contracts\Models\WidgetModelContract');
 
         return get_class($model);
     }
@@ -205,13 +205,13 @@ trait HasWidgets
         $widgets = static::hydrateWidgets($widgets)->pluck('id')->toArray();
 
         // Fire the Widget syncing event
-        static::$dispatcher->dispatch("inetstudio.widgets.{$event}ing", [$this, $widgets]);
+        static::$dispatcher->dispatch("inetstudio.widgets-package.widgets.{$event}ing", [$this, $widgets]);
 
         // Set Widgets
         $this->widgets()->$action($widgets);
 
         // Fire the Widget synced event
-        static::$dispatcher->dispatch("inetstudio.widgets.{$event}ed", [$this, $widgets]);
+        static::$dispatcher->dispatch("inetstudio.widgets-package.widgets.{$event}ed", [$this, $widgets]);
     }
 
     protected function hydrateWidgets($widgets)

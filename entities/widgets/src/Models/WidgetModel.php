@@ -26,14 +26,6 @@ class WidgetModel extends Model implements WidgetModelContract
 
     protected $table = 'widgets';
 
-    protected $fillable = [
-        'title',
-        'category',
-        'view',
-        'params',
-        'additional_info',
-    ];
-
     protected $casts = [
         'params' => 'array',
         'additional_info' => 'array',
