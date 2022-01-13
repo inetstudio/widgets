@@ -11,8 +11,8 @@ class ItemsService extends BaseItemsService implements ItemsServiceContract
     {
         $widget = $this->getItemById($widgetId);
 
-        $images = (config('widgets.images.conversions.'.$widgetType)) ? array_keys(config('widgets.images.conversions.'.$widgetType)) : [];
-        app()->make('InetStudio\Uploads\Contracts\Services\Back\ImagesServiceContract')
+        $images = (config('inetstudio.widgets-package.widgets.images.conversions.'.$widgetType)) ? array_keys(config('inetstudio.widgets-package.widgets.images.conversions.'.$widgetType)) : [];
+        resolve('InetStudio\Uploads\Contracts\Services\Back\ImagesServiceContract')
             ->attachToObject(request(), $widget, $images, 'widgets', $widgetType);
     }
 
