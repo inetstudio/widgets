@@ -62,11 +62,11 @@ export let widgets = {
                         widgetOptions = arguments[2],
                         callback = (3 in arguments) ? arguments[3] : undefined;
 
-                    let url = (widgetId !== '')
+                    let url = (widgetId !== '' && widgetId !== 0)
                         ? route('inetstudio.widgets-package.widgets.back.resource.update', widgetId)
                         : route('inetstudio.widgets-package.widgets.back.resource.store');
 
-                    if (widgetId !== '') {
+                    if (widgetId !== '' && widgetId !== 0) {
                         $.extend(widgetData, {
                             _method: 'PUT'
                         })

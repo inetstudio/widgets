@@ -20,7 +20,7 @@ class WidgetModel extends Model implements WidgetModelContract
     const BASE_MATERIAL_TYPE = 'widget';
 
     private array $images = [
-        'config' => 'widgets',
+        'config' => 'inetstudio.widgets-package.widgets',
         'model' => '',
     ];
 
