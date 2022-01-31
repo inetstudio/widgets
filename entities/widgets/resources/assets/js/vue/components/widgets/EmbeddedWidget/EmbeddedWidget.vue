@@ -71,7 +71,7 @@ export default {
   methods: {
     getDefaultModel() {
       return _.merge(this.getDefaultWidgetModel(), {
-        view: 'admin.module.widgets::front.partials.content.embedded_widget'
+        view: 'inetstudio.widgets-package.widgets::front.partials.content.embedded_widget'
       });
     },
     initComponent() {
